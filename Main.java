@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
         Main result = new Main();
         System.out.println("Введите выражение отделяя знак пробелом:");
@@ -10,24 +10,16 @@ public class Main {
         String answer = result.calc(expression);
         System.out.println("Ответ:\n" + answer);
     }
-    public static String calc(String input) {
+    public static String calc(String input) throws Exception {
         boolean romanOrInt = false;
         Main intToRoman = new Main();
         Main romanExamination = new Main();
         int result = 0;
         String[] inputSplit = input.split(" ");
         if (inputSplit.length < 3) {
-            try {
-                throw new IOException();
-            } catch (IOException e) {
-                return "Недостаточно данных для расчета или пропущен пробел";
-            }
+                throw new IOException("Недостаточно данных для расчета или пропущен пробел");
         } else if (inputSplit.length != 3) {
-            try {
-                throw new IOException();
-            } catch (IOException e) {
-                return "Превышено допустимое количество операций";
-            }
+                throw new IOException("Превышено допустимое количество операций");
         }
         int a, b;
         try {
@@ -38,19 +30,11 @@ public class Main {
                 b = romanExamination.romanToInt(inputSplit[2]);
                 romanOrInt = true;
                 if ((a < 1) || (b < 1)) {
-                    try {
-                        throw new NumberFormatException();
-                    } catch (NumberFormatException ex) {
-                        return "Введена некорректная переменная для данной системы счисления";
-                    }
+                        throw new NumberFormatException("Введена некорректная переменная для данной системы счисления");
                 }
         }
         if ((a < 1) || (a > 10) || (b < 1) || (b > 10)) {
-            try {
-                throw new Exception();
-            } catch (Exception e){
-                return "Допустимые значения переменных от 1 до 10";
-            }
+                throw new Exception("Допустимые значения переменных от 1 до 10");
         }
         String mSing = inputSplit[1];
         switch (mSing) {
@@ -67,20 +51,12 @@ public class Main {
                 result = a / b;
                 break;
             default:
-                try {
-                throw new Exception();
-            } catch (Exception e) {
-                return "Некорректный математический знак";
-            }
+                throw new Exception("Некорректный математический знак");
         }
         String output;
         if (romanOrInt) {
             if (result < 1) {
-                try {
-                    throw new Exception();
-                } catch (Exception e) {
-                    return "Данная система счисления не допускает отрицательных значений";
-                }
+                    throw new Exception("Данная система счисления не допускает отрицательных значений");
             } else {
                 output = intToRoman.intToRome(result);
             }
